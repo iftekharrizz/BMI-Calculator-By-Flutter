@@ -1,11 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'funtional_button.dart';
-import 'reusable_card.dart';
-import 'constants.dart';
-import 'slider_&_icons.dart';
+import '../components/funtional_button.dart';
+import '../components/reusable_card.dart';
+import 'package:bmi_calculator_flutter/components//constants.dart';
+import '../components/slider_&_icons.dart';
+import '../components/bottom_button.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -16,11 +16,13 @@ class _InputPageState extends State<InputPage> {
   GenderType selectedGender;
   int height = 180;
   int weight = 55;
+  int age = 18;
   Timer timer;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text(
           'BMI CALCULATOR',
@@ -45,7 +47,7 @@ class _InputPageState extends State<InputPage> {
                     colour: selectedGender == GenderType.Male
                         ? kActiveCardColor
                         : kInactiveCardColor,
-                    activeBorder: selectedGender == GenderType.Male
+                    activeBorderColor: selectedGender == GenderType.Male
                         ? kActiveCardBorderColor
                         : kInactiveCardBorderColor,
                     cardChild: IconContent(
@@ -64,7 +66,7 @@ class _InputPageState extends State<InputPage> {
                     colour: selectedGender == GenderType.Female
                         ? kActiveCardColor
                         : kInactiveCardColor,
-                    activeBorder: selectedGender == GenderType.Female
+                    activeBorderColor: selectedGender == GenderType.Female
                         ? kActiveCardBorderColor
                         : kInactiveCardBorderColor,
                     cardChild: IconContent(
@@ -149,18 +151,19 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
               colour: kActiveCardColor,
-              activeBorder: kActiveCardBorderColor,
+              activeBorderColor: kActiveCardBorderColor,
             ),
           ),
 
-          //Bottom card to
+          //Bottom card for weight and age
           Expanded(
             child: Row(
               children: [
+                //Weight card with functionality
                 Expanded(
                   child: ReusableCard(
                     colour: kActiveCardColor,
-                    activeBorder: kInactiveCardBorderColor,
+                    activeBorderColor: kActiveCardBorderColor,
                     cardChild: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -182,7 +185,7 @@ class _InputPageState extends State<InputPage> {
                                 });
                               },
                               timer: timer,
-                              buttonIcon: Icons.remove,
+                              buttonIcon: FontAwesomeIcons.minus,
                               onClickDown: (TapDownDetails details) {
                                 timer = Timer.periodic(
                                   Duration(milliseconds: 100),
@@ -210,7 +213,7 @@ class _InputPageState extends State<InputPage> {
                                 });
                               },
                               timer: timer,
-                              buttonIcon: Icons.add,
+                              buttonIcon: FontAwesomeIcons.plus,
                               onClickDown: (TapDownDetails details) {
                                 timer = Timer.periodic(
                                     Duration(milliseconds: 100), (timer) {
@@ -232,10 +235,81 @@ class _InputPageState extends State<InputPage> {
                     ),
                   ),
                 ),
+
+                //Age card with functionality
                 Expanded(
                   child: ReusableCard(
                     colour: kActiveCardColor,
-                    activeBorder: kInactiveCardBorderColor,
+                    activeBorderColor: kActiveCardBorderColor,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          'AGE',
+                          style: kLabelTextStyle,
+                        ),
+                        Text(
+                          age.toString(),
+                          style: kNumberTextStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FunctionalButton(
+                              onClick: () {
+                                setState(() {
+                                  if (age > kMinWeight) age--;
+                                });
+                              },
+                              timer: timer,
+                              buttonIcon: FontAwesomeIcons.minus,
+                              onClickDown: (TapDownDetails details) {
+                                timer = Timer.periodic(
+                                  Duration(milliseconds: 100),
+                                  (timer) {
+                                    setState(() {
+                                      if (age > kMinWeight) age--;
+                                    });
+                                  },
+                                );
+                              },
+                              onClickUp: (TapUpDetails details) {
+                                timer.cancel();
+                              },
+                              onClickCancel: () {
+                                timer.cancel();
+                              },
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            FunctionalButton(
+                              onClick: () {
+                                setState(() {
+                                  if (age < kMaxWeight) age++;
+                                });
+                              },
+                              timer: timer,
+                              buttonIcon: FontAwesomeIcons.plus,
+                              onClickDown: (TapDownDetails details) {
+                                timer = Timer.periodic(
+                                    Duration(milliseconds: 100), (timer) {
+                                  setState(() {
+                                    if (age < kMaxWeight) age++;
+                                  });
+                                });
+                              },
+                              onClickUp: (TapUpDetails details) {
+                                timer.cancel();
+                              },
+                              onClickCancel: () {
+                                timer.cancel();
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -243,14 +317,15 @@ class _InputPageState extends State<InputPage> {
           ),
 
           //Bottom space color container
-          Container(
-            color: kBottomContainerColor,
-            margin: EdgeInsets.only(top: 10.0),
-            width: double.infinity,
-            height: kBottomContainerHeight,
-          )
+          BottomButton(buttonTitle: 'TAP TO CALCULATE',onTap: (){
+            Navigator.pushNamed(context, '/results',arguments: {
+              'Height' : height,
+              'Weight' : weight,
+              'Age' : age,});
+          } ,)
         ],
       ),
     );
   }
 }
+

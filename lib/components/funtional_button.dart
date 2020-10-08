@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
-import 'constants.dart';
+import 'package:bmi_calculator_flutter/components/constants.dart';
 
 class FunctionalButton extends StatelessWidget {
   final Timer timer;
@@ -24,8 +23,16 @@ class FunctionalButton extends StatelessWidget {
       onTapDown: onClickDown,
       onTapUp: onClickUp,
       onTapCancel: onClickCancel,
-      child: FloatingActionButton(
+      child: RawMaterialButton(
+        elevation: 15,
         onPressed: onClick,
+        constraints: BoxConstraints.tightFor(width: 56.0,height: 56.0),
+        fillColor: Colors.orange,
+        shape: CircleBorder(
+          side: BorderSide(
+            color: Colors.black
+          )
+        ),
         child: Icon(
           buttonIcon,
           color: kInactiveCardColor,
