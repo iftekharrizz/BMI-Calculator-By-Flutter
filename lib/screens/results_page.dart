@@ -1,17 +1,22 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:bmi_calculator_flutter/components//constants.dart';
+import 'package:bmi_calculator_flutter/components/constants.dart';
 import 'package:bmi_calculator_flutter/components/reusable_card.dart';
 import 'package:bmi_calculator_flutter/components/bottom_button.dart';
 
 class ResultsPage extends StatelessWidget {
-  Map data;
+
+  ResultsPage({this.bmiScore,this.resultVerdict,this.comment});
+  final String bmiScore;
+  final String resultVerdict;
+  final String comment;
+
+
   @override
   Widget build(BuildContext context) {
-    data = ModalRoute.of(context).settings.arguments;
-    String bmiStatus = 'OVERWEIGHT';
-    String comment = 'hey you are ok now!';
+
+
     return Scaffold(
       body: SafeArea(
           child: Column(
@@ -36,15 +41,18 @@ class ResultsPage extends StatelessWidget {
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(bmiStatus,
+                  Text(resultVerdict,
                       style: kBmiStatusTextStyle),
                   Text(
-                    data['Height'].toString(),
+                    bmiScore,
                     style: kResultDigitTextStyle,
                   ),
-                  Text(
-                    comment,
-                    style: kCommentTextStyle,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      comment,
+                      style: kCommentTextStyle,
+                    ),
                   )
                 ],
               )),

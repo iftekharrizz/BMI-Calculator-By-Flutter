@@ -1,11 +1,13 @@
 import 'dart:async';
+import 'package:bmi_calculator_flutter/screens/results_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../components/funtional_button.dart';
+import '../components/functional_button.dart';
 import '../components/reusable_card.dart';
 import 'package:bmi_calculator_flutter/components//constants.dart';
 import '../components/slider_&_icons.dart';
 import '../components/bottom_button.dart';
+import '../components/calculation_core.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -95,7 +97,7 @@ class _InputPageState extends State<InputPage> {
                     textBaseline: TextBaseline.alphabetic,
                     children: [
                       Text(
-                        height.toString(),
+                        height.toStringAsFixed(0),
                         style: kNumberTextStyle,
                       ),
                       Text(
@@ -125,10 +127,10 @@ class _InputPageState extends State<InputPage> {
                           mySlider: Slider(
                             min: kMinHeight,
                             max: kMaxHeight,
-                            value: height.toDouble(),
+                            value: height.roundToDouble(),
                             onChanged: (double newValue) {
                               setState(() {
-                                height = newValue.toInt();
+                                height = newValue.round();
                               });
                             },
                           ),
@@ -317,15 +319,20 @@ class _InputPageState extends State<InputPage> {
           ),
 
           //Bottom space color container
-          BottomButton(buttonTitle: 'TAP TO CALCULATE',onTap: (){
-            Navigator.pushNamed(context, '/results',arguments: {
-              'Height' : height,
-              'Weight' : weight,
-              'Age' : age,});
-          } ,)
+          BottomButton(
+            buttonTitle: 'TAP TO CALCULATE',
+            onTap: () {
+              CalculationCore result =
+                  CalculationCore(height: height, weight: weight);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ResultsPage(
+                bmiScore: result.getCalculateBMI(),
+                resultVerdict: result.getResult(),
+                comment: result.getCommentOnResult(),
+              )));
+            },
+          )
         ],
       ),
     );
   }
 }
-

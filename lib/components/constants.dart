@@ -6,12 +6,12 @@ const Color kInactiveCardBorderColor = Colors.transparent;
 const Color kInactiveCardColor = Color(0xFF111328);
 const Color kBottomContainerColor = Colors.orange;
 const double kBottomContainerHeight = 50.0;
-const double kMinHeight=120.0;
-const double kMaxHeight=220.0;
-const double kMinWeight=10;
-const double kMaxWeight=200;
-const double kMinAge=0;
-const double kMaxAge=150;
+const double kMinHeight = 120.0;
+const double kMaxHeight = 220.0;
+const double kMinWeight = 10;
+const double kMaxWeight = 200;
+const double kMinAge = 0;
+const double kMaxAge = 150;
 
 enum GenderType { Male, Female }
 
@@ -21,9 +21,9 @@ const kLabelTextStyle = TextStyle(
 );
 
 const kNumberTextStyle = TextStyle(
-fontSize: 50.0,
-fontWeight: FontWeight.w900,
-color: Colors.white,
+  fontSize: 50.0,
+  fontWeight: FontWeight.w900,
+  color: Colors.white,
 );
 
 const kResultDigitTextStyle = TextStyle(
@@ -32,5 +32,11 @@ const kResultDigitTextStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
-const kBmiStatusTextStyle = TextStyle(color: Colors.green, fontSize: 28.0);
-const kCommentTextStyle = TextStyle(color: Colors.white, fontSize: 20);
+const kBmiStatusTextStyle = TextStyle(
+  color: Colors.green,
+  fontSize: 28.0,
+);
+const kCommentTextStyle = TextStyle(
+  color: Colors.white,
+  fontSize: 20,
+);
